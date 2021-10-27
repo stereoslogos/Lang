@@ -46,6 +46,7 @@ namespace CDatos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "sp_anular_cita";
                 cmd.Parameters.Add("@pcod_cita", oentcitas.Cod_cita);
+                cmd.Parameters.Add("@ptipo", oentcitas.Tipo);
                 cmd.ExecuteNonQuery();
                 return true;
             }

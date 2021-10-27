@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using CEntidades;
 using CReglas;
+using System.Windows.Forms;
 
 
 namespace Hospital_Noche
@@ -43,19 +44,50 @@ namespace Hospital_Noche
                 }
                 else
                 {
+                    LblMensaje.Text = "";
+                    txtFecha.Text = ds.Tables[0].Rows[0]["fecha"].ToString();
+                    txtHora.Text = ds.Tables[0].Rows[0]["hora"].ToString();
+                    txtCodPaciente.Text = ds.Tables[0].Rows[0]["id_paciente"].ToString();
+                    lblPaciente.Text = ds.Tables[1].Rows[0]["nom_paciente"].ToString();
+                    txtCodMedico.Text = ds.Tables[0].Rows[0]["id_medico"].ToString();
+                    lblMedico.Text = ds.Tables[2].Rows[0]["nom_medico"].ToString();
+                    txtVlrConsulta.Text = ds.Tables[0].Rows[0]["valor"].ToString();
+                    txtDiagnostico.Text = ds.Tables[0].Rows[0]["observaciones"].ToString();
 
+                    txtFecha.Enabled = true;
+                    txtHora.Enabled = true;
+                    txtDiagnostico.Enabled = true;
+                    txtVlrConsulta.Enabled = true;
+                    BtnAnular.Enabled = true;
+                    btnGuardarCita.Enabled = true;
+                    txtFecha.Focus();
                 }
             }
         }
 
         protected void BtnAnular_Click(object sender, EventArgs e)
         {
-
+            if (MessageBox.Show("¿Desea anular este registro?", "Anular", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                oentcitas.Cod_cita = txtCodCita.Text;
+                oentcitas.Tipo = 0;
+                if (oregcitas.anular_citas(oentcitas))
+                {
+                    LblMensaje.Text = "Cita anulada";
+                    desactivar_campos();
+                    limpiar_campos();
+                }
+                else
+                {
+                    LblMensaje.Text = "Error anulando cita";
+                }
+            }
         }
 
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
-
+            desactivar_campos();
+            limpiar_campos();
         }
 
         protected void btnGuardarCita_Click(object sender, EventArgs e)
@@ -85,6 +117,8 @@ namespace Hospital_Noche
                     if (oregcitas.guardar_citas(oentcitas))
                     {
                         LblMensaje.Text = "Coronao'";
+                        desactivar_campos();
+                        limpiar_campos();
                     }
                     else
                     {
@@ -93,6 +127,32 @@ namespace Hospital_Noche
                     }
                 }
             }
+        }
+
+        public void limpiar_campos()
+        {
+            txtCodCita.Text = "";
+            txtCodMedico.Text = "";
+            txtCodPaciente.Text = "";
+            txtDiagnostico.Text = "";
+            txtFecha.Text = "";
+            txtHora.Text = "";
+            txtVlrConsulta.Text = "";
+            lblMedico.Text = "";
+            lblPaciente.Text = "";
+            txtCodCita.Focus();
+        }
+
+        public void desactivar_campos()
+        {
+            txtCodMedico.Enabled = false;
+            txtCodPaciente.Enabled = false;
+            txtDiagnostico.Enabled = false;
+            txtVlrConsulta.Enabled = false;
+            BtnAnular.Enabled = false;
+            btnBuscarMedico.Enabled = false; 
+            btnConsPaciente.Enabled = false;
+            btnGuardarCita.Enabled = false;
         }
 
         protected void btnConsPaciente_Click(object sender, EventArgs e)
@@ -123,6 +183,8 @@ namespace Hospital_Noche
                 }
             }
         }
+
+
 
         protected void btnBuscarMedico_Click(object sender, EventArgs e)
         {
