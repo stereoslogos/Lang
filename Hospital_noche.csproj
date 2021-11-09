@@ -107,6 +107,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="CDatos\CDatos.csproj">
+      <Project>{fea19d13-5a8b-4ce2-b7b1-d829201258dc}</Project>
+      <Name>CDatos</Name>
+    </ProjectReference>
     <ProjectReference Include="CEntidades\CEntidades.csproj">
       <Project>{92f20027-3bb3-428a-8c1b-1184a7022fac}</Project>
       <Name>CEntidades</Name>
